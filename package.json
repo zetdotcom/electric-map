@@ -1,0 +1,29 @@
+{
+  "name": "electric-map",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "babel-polyfill": "^6.26.0",
+    "node-sass-chokidar": "^0.0.3",
+    "npm-run-all": "^4.1.1",
+    "google-map-react": "^0.27.0",
+    "google-maps-react": "^1.1.2",
+    "react": "^16.2.0",
+    "react-async-script-loader": "^0.3.0",
+    "react-dom": "^16.2.0",
+    "react-geolocated": "^2.2.1",
+    "react-geolocation": "^1.0.3",
+    "react-google-maps": "^9.4.5",
+    "react-scripts": "1.0.17",
+    "recompose": "^0.26.0"
+  },
+  "scripts": {
+    "build-css": "node-sass-chokidar src/ -o src/",
+    "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
+    "start-js": "react-scripts start",
+    "start": "npm-run-all -p watch-css start-js",
+    "build": "npm run build-css && react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}
