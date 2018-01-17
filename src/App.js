@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import MapContainer from './Components/MapContainer';
 
 
 
@@ -17,7 +18,7 @@ class App extends Component {
 // console.log(pointsService.filterByConnectorType('Type 2 Mennekes (IEC62196)'))
     return (
       <div className="App">
-          
+        <MapContainer />
       </div>
     );
   }
