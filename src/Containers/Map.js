@@ -11,43 +11,49 @@ export class Map extends React.Component {
             currentLocation: {
                 lat: lat,
                 lng: lng
-            }
+            },
+            zoom: 12
         }
+
+
+        this.recenterMap = this.recenterMap.bind(this)
     }
 
     componentDidUpdate(prevProps, prevState) {
         if (prevProps.google !== this.props.google) {
-            this.loadMap();
+          this.loadMap();
         }
-
         if (prevState.currentLocation !== this.state.currentLocation) {
-            this.recenterMap();
+          this.recenterMap();
         }
-    }
+      }
 
-    recenterMap() {
+      recenterMap() {
         const map = this.map;
         const curr = this.state.currentLocation;
-
+    
         const google = this.props.google;
         const maps = google.maps;
-
         if (map) {
             let center = new maps.LatLng(curr.lat, curr.lng)
             map.panTo(center)
+            
         }
-    }
+      }
 
     componentDidMount() {
-        if (this.props.centerAroundCurrentLocation) {
+        if (!this.props.centerAroundCurrentLocation) {
             if (navigator && navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition((pos) => {
                     const coords = pos.coords;
+                    
                     this.setState({
                         currentLocation: {
                             lat: coords.latitude,
-                            lng: coords.longitude
-                        }
+                            lng: coords.longitude,
+                            
+                        },
+                        zoom: 2
                     })
                 })
             }
@@ -70,10 +76,29 @@ export class Map extends React.Component {
             const center = new maps.LatLng(lat, lng);
             const mapConfig = {
                 center: center,
-                zoom: zoom,
+                zoom: this.state.zoom,
                 };
             this.map = new maps.Map(node, mapConfig);
+
+            this.map.addListener('click', (evt) => {
+                this.props.onClick(this.map);
+            })
+            
         }
+    }
+
+    renderChildren() {
+        const {children} = this.props;
+
+        if (!children) return;
+
+        return React.Children.map(children, c => {
+            return React.cloneElement(c, {
+                map: this.map,
+                google: this.props.google,
+                mapCenter: this.state.currentLocation
+            });
+        })
     }
 
 
@@ -88,6 +113,7 @@ export class Map extends React.Component {
         return(
             <div style={style} ref='map'>
                 Loading ...
+                {this.renderChildren()}
             </div>
         )
     }
@@ -97,15 +123,17 @@ Map.propTypes = {
     google: PropTypes.object,
     zoom:  PropTypes.number,
     initialCenter:  PropTypes.object   ,
-    centerAroundCurrentLocation: PropTypes.bool
+    centerAroundCurrentLocation: PropTypes.bool,
+    onClick: PropTypes.func
 }
 
 Map.defaultProps ={
     zoom: 6,
     //center of UK by default
     initialCenter: {
-        lat: 54.621388,
+        lat: 52.621388,
         lng: -2.592773
     },
-    centerAroundCurrentLocation: false
+    centerAroundCurrentLocation: false,
+    onClick: function() {} // default prop
 }
