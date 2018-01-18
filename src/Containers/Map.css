@@ -1,0 +1,29 @@
+#pac-box {
+  width: 50%;
+  margin: 10px 10px 0 0;
+  height: 30px;
+  overflow: hidden;
+  box-sizing: border-box;
+  position: relative;
+  font-family: Roboto, Arial, sans-serif;
+  background-color: white;
+  padding: 8px;
+  border-radius: 2px;
+  border: none;
+  border-bottom: 1px solid grey;
+  background-clip: padding-box;
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px; }
+  #pac-box .controls {
+    width: 90%;
+    height: 100%;
+    border: none;
+    outline: none;
+    color: #565656;
+    font-size: 13px;
+    direction: ltr; }
+  #pac-box .search-icon {
+    float: right;
+    transform: scale(1.5);
+    color: #757575;
+    padding-top: 2px;
+    z-index: 20; }

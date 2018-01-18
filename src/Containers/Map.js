@@ -2,6 +2,10 @@ import React, {Component} from 'react'
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 
+import {MdSearch, MdChat, MdCheck} from 'react-icons/lib/md';
+
+import './Map.css';
+
 export class Map extends React.Component {
     constructor(props) {
         super(props);
@@ -98,15 +102,16 @@ export class Map extends React.Component {
 
             // initialize the autocomplete functionality using the #pac-input input box
             let inputNode = document.getElementById('pac-input');
-            this.map.controls[window.google.maps.ControlPosition.TOP_LEFT].push(inputNode);
-            let autoComplete = new window.google.maps.places.Autocomplete(inputNode, {bounds: defaultBounds});
+            let boxNode = document.getElementById('pac-box')
+            this.map.controls[window.google.maps.ControlPosition.TOP_RIGHT].push(boxNode);
+            let autoComplete = new window.google.maps.places.Autocomplete(inputNode, options);
             
             autoComplete.addListener('place_changed', () => {
                 let place = autoComplete.getPlace();
                 let location;
                 if (place.geometry) {
                     location = place.geometry.location
-                    this.map.setZoom(15);
+                    this.map.setZoom(14);
                     
                   } else {
                     inputNode.placeholder = 'Enter a city';
@@ -147,8 +152,12 @@ export class Map extends React.Component {
 
         return(
           <div>
-            <input id="pac-input" className="controls"  type="text" placeholder="Enter Location" style={{zIndex: 20, position: 'absolute'}} />
-            <a href="http://maps.google.com/maps?saddr=52.896374, -0.663300&daddr=52.766943, -0.883026" target="blank">LINK</a>
+            <div id="pac-box" className="filter-section">
+                <input id="pac-input"  className="controls"  type="text" placeholder="Enter Location" autofocus />
+                <MdSearch className="search-icon" />
+            </div>
+             
+            
             <div style={style} ref='map'>
             
                 Loading ...

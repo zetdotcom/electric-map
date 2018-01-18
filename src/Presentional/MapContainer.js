@@ -4,6 +4,8 @@ import {Map} from '../Containers/Map';
 
 import * as pointsService from '../Services/PointService';
 
+import './MapContainer.css';
+
 export class MapContainer extends React.Component {
     constructor(props) {
         super(props);
@@ -58,9 +60,9 @@ export class MapContainer extends React.Component {
                 address={location.ChargeDeviceLocation.Address}/>));
 
         return (
-            <div>
+            <div style={style}>
                 
-                <Map onClick={this.onMapClicked} google={this.props.google} style={style}>
+                <Map onClick={this.onMapClicked} google={this.props.google} >
                     {markers}
 
                     <InfoWindow

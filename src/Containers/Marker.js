@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
-import {Map} from '../Containers/Map';
+import {Map} from './Map';
 
 const evtNames = ['click', 'mouseover'];
 
