@@ -88,20 +88,33 @@ export class Map extends React.Component {
                 this.props.onClick(this.map);
             });
 
-            
+            //set default bounds for biased autocomplete searched
+            const defaultBounds = new google.maps.LatLngBounds(
+                new google.maps.LatLng(61.433515, 1.669922),
+                new google.maps.LatLng(49.432413, -8.876953));
+            const options = {
+                bounds: defaultBounds
+            };
 
             // initialize the autocomplete functionality using the #pac-input input box
             let inputNode = document.getElementById('pac-input');
             this.map.controls[window.google.maps.ControlPosition.TOP_LEFT].push(inputNode);
-            let autoComplete = new window.google.maps.places.Autocomplete(inputNode);
+            let autoComplete = new window.google.maps.places.Autocomplete(inputNode, {bounds: defaultBounds});
             
-            autoComplete.addListener('place_changed', (e) => {
+            autoComplete.addListener('place_changed', () => {
                 let place = autoComplete.getPlace();
-                let location = place.geometry.location;
-                
+                let location;
+                if (place.geometry) {
+                    location = place.geometry.location
+                    this.map.setZoom(15);
+                    
+                  } else {
+                    inputNode.placeholder = 'Enter a city';
+                  }
+                  
               
                 // bring the selected place in view on the map
-                this.map.fitBounds(place.geometry.viewport);
+                // this.map.fitBounds(place.geometry.viewport);
                 this.map.setCenter(location);
               
 
@@ -135,6 +148,7 @@ export class Map extends React.Component {
         return(
           <div>
             <input id="pac-input" className="controls"  type="text" placeholder="Enter Location" style={{zIndex: 20, position: 'absolute'}} />
+            <a href="http://maps.google.com/maps?saddr=52.896374, -0.663300&daddr=52.766943, -0.883026" target="blank">LINK</a>
             <div style={style} ref='map'>
             
                 Loading ...
