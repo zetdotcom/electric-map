@@ -12,7 +12,11 @@ export class Map extends React.Component {
                 lat: lat,
                 lng: lng
             },
-            zoom: 12
+            zoom: 12,
+            maptype: 'roadmap',
+            place_formatted: '',
+            place_id: '',
+            place_location: ''
         }
 
 
@@ -82,8 +86,26 @@ export class Map extends React.Component {
 
             this.map.addListener('click', (evt) => {
                 this.props.onClick(this.map);
-            })
+            });
+
             
+
+            // initialize the autocomplete functionality using the #pac-input input box
+            let inputNode = document.getElementById('pac-input');
+            this.map.controls[window.google.maps.ControlPosition.TOP_LEFT].push(inputNode);
+            let autoComplete = new window.google.maps.places.Autocomplete(inputNode);
+            
+            autoComplete.addListener('place_changed', (e) => {
+                let place = autoComplete.getPlace();
+                let location = place.geometry.location;
+                
+              
+                // bring the selected place in view on the map
+                this.map.fitBounds(place.geometry.viewport);
+                this.map.setCenter(location);
+              
+
+              });
         }
     }
 
@@ -111,10 +133,14 @@ export class Map extends React.Component {
           }
 
         return(
+          <div>
+            <input id="pac-input" className="controls"  type="text" placeholder="Enter Location" style={{zIndex: 20, position: 'absolute'}} />
             <div style={style} ref='map'>
+            
                 Loading ...
                 {this.renderChildren()}
             </div>
+          </div>
         )
     }
 }
