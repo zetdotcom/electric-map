@@ -153,7 +153,7 @@ export class Map extends React.Component {
         return(
           <div>
             <div id="pac-box" className="filter-section">
-                <input id="pac-input"  className="controls"  type="text" placeholder="Enter Location" autofocus />
+                <input id="pac-input"  className="controls"  type="text" placeholder="Enter Location" autoFocus />
                 <MdSearch className="search-icon" />
             </div>
              

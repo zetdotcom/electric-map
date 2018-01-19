@@ -22,17 +22,25 @@ export class MapContainer extends React.Component {
         this.onMapClicked = this
             .onMapClicked
             .bind(this);
+
     }
 
     onMarkerClick(markerProps, marker, e) {
-        this.setState({selectedPlace: markerProps, activeMarker: marker, showingInfoWindow: true});
+        this.setState({
+            selectedPlace: markerProps,
+            activeMarker: marker,
+            showingInfoWindow: true});
     }
 
     onMapClicked(props) {
         if (this.state.showingInfoWindow) {
-            this.setState({showingInfoWindow: false, activeMarker: null})
+            this.setState({
+                showingInfoWindow: false,
+                activeMarker: null})
         }
     }
+
+
 
     render() {
         if (!this.props.loaded) {
@@ -45,6 +53,13 @@ export class MapContainer extends React.Component {
             height: '100vh'
         }
 
+
+        const info = (place) => {
+
+            if ( this.state.selectedPlace.place !== "" || this.state.selectedPlace.place !== null) {
+                return this.state.selectedPlace.place
+            }
+        }
         
 
         const markers = pointsService
@@ -57,7 +72,18 @@ export class MapContainer extends React.Component {
                 lat: location.ChargeDeviceLocation.Latitude,
                 lng: location.ChargeDeviceLocation.Longitude
             }}
-                address={location.ChargeDeviceLocation.Address}/>));
+                buildingName={location.ChargeDeviceLocation.Address.BuildingName}
+                buildingNumber={location.ChargeDeviceLocation.Address.BuildingNumber}
+                throughfare={location.ChargeDeviceLocation.Address.Throughfare}
+                postTown={location.ChargeDeviceLocation.Address.PostTown}
+                county={location.ChargeDeviceLocation.Address.County}
+                postCode={location.ChargeDeviceLocation.Address.PostCode}
+                lat={location.ChargeDeviceLocation.Latitude}
+                lng={location.ChargeDeviceLocation.Longitude}
+                address={location.ChargeDeviceLocation.Address}
+                />));
+
+
 
         return (
             <div style={style}>
@@ -69,9 +95,19 @@ export class MapContainer extends React.Component {
                         marker={this.state.activeMarker}
                         visible={this.state.showingInfoWindow}>
 
-                        <div>
-                            <h1>{this.state.selectedPlace.name}</h1>
-                            <div>{JSON.stringify(this.state.selectedPlace.address)}</div>
+                        <div className="iw">
+                            <div className="iw-device-name">{this.state.selectedPlace.name}</div>
+                            <div className="iw-adress"><span>
+                                {this.state.selectedPlace.buildingNumber && this.state.selectedPlace.buildingNumber} {this.state.selectedPlace.buildingName && this.state.selectedPlace.buildingName}  
+                                {this.state.selectedPlace.troughfare}<br />
+                                {this.state.selectedPlace.postTown}<br />
+                                {this.state.selectedPlace.postCode}<br />
+                                {this.state.selectedPlace.county}
+                                </span>
+                            </div>
+                            <div className="iw-directions">
+                                <a href={'https://www.google.co.uk/maps/dir/Current+Location/' + this.state.selectedPlace.lat + ','+ this.state.selectedPlace.lng} target="blank">directions</a>
+                            </div>
                         </div>
                     </InfoWindow>
                 </Map>
