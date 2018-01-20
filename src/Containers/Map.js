@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 
-import {MdSearch, MdChat, MdCheck} from 'react-icons/lib/md';
+import {MdSearch, MdSettingsInputHdmi, MdSettingsInputComponent, MdFlashOn} from 'react-icons/lib/md';
 
 import './Map.css';
 
@@ -104,7 +104,11 @@ export class Map extends React.Component {
             let inputNode = document.getElementById('pac-input');
             let boxNode = document.getElementById('pac-box')
             this.map.controls[window.google.maps.ControlPosition.TOP_RIGHT].push(boxNode);
-            let autoComplete = new window.google.maps.places.Autocomplete(inputNode, options);
+            let autoComplete = new window.google.maps.places.Autocomplete(inputNode);
+
+            //restric autocomplete suggestions to UK only
+            autoComplete.setComponentRestrictions(
+                {'country': ['uk']});
             
             autoComplete.addListener('place_changed', () => {
                 let place = autoComplete.getPlace();
@@ -152,9 +156,27 @@ export class Map extends React.Component {
 
         return(
           <div>
-            <div id="pac-box" className="filter-section">
-                <input id="pac-input"  className="controls"  type="text" placeholder="Enter Location" autoFocus />
-                <MdSearch className="search-icon" />
+            <div id="pac-box">
+                <div className="autocomplete">
+                    <input id="pac-input"  className="controls"  type="text" placeholder="Enter Location" autoFocus />
+                    <MdSearch className="search-icon" />
+                </div>
+                <div className="filter-type"> 
+
+                        <label htmlFor="type">
+                            <span><MdFlashOn className="search-icons" />All Types</span>
+                            <input name="type" value="all" type="radio" onChange={this.props.typeSelecttion} />
+                        </label>
+                        <label htmlFor="type">
+                            <span><MdSettingsInputHdmi className="search-icons" />Type 2 Mennekes</span>
+                            <input name="type" value="type2" type="radio" onChange={this.props.typeSelecttion} />
+                        </label>
+                        <label htmlFor="type">
+                            <span><MdSettingsInputComponent className="search-icons" />3-Pin Type G</span>
+                            <input name="type" value="3pin" type="radio" onChange={this.props.typeSelecttion} />
+                        </label>
+         
+                </div>
             </div>
              
             

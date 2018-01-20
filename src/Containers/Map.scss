@@ -1,18 +1,29 @@
 #pac-box {
     width: 50%;
     margin: 10px 10px 0 0;
-    height: 30px;
-    overflow: hidden;
-    box-sizing: border-box;
-    position: relative;
+    display: flex;
+    
     font-family: Roboto, Arial, sans-serif;
-    background-color: rgb(255, 255, 255);
-    padding: 8px;
-    border-radius: 2px;
-    border: none;
-    border-bottom: 1px solid grey;
-    background-clip: padding-box;
-    box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;
+    
+    
+    
+    
+    
+    .autocomplete {
+        height: 30px;
+        width: 100%;
+        background-color: rgb(255, 255, 255);
+        padding: 8px;
+        border-radius: 2px;
+        border: none;
+        border-bottom: 1px solid grey;
+        background-clip: padding-box;
+        box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;
+        overflow: hidden;
+        box-sizing: border-box;
+        position: relative;
+
+    }
     .controls {
         width: 90%;
         height: 100%;
@@ -29,4 +40,5 @@
         padding-top: 2px;
         z-index: 20;
     }
+
 }

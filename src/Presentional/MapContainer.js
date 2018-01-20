@@ -74,7 +74,7 @@ export class MapContainer extends React.Component {
             }}
                 buildingName={location.ChargeDeviceLocation.Address.BuildingName}
                 buildingNumber={location.ChargeDeviceLocation.Address.BuildingNumber}
-                throughfare={location.ChargeDeviceLocation.Address.Throughfare}
+                thoroughfare={location.ChargeDeviceLocation.Address.Thoroughfare}
                 postTown={location.ChargeDeviceLocation.Address.PostTown}
                 county={location.ChargeDeviceLocation.Address.County}
                 postCode={location.ChargeDeviceLocation.Address.PostCode}
@@ -99,7 +99,7 @@ export class MapContainer extends React.Component {
                             <div className="iw-device-name">{this.state.selectedPlace.name}</div>
                             <div className="iw-adress"><span>
                                 {this.state.selectedPlace.buildingNumber && this.state.selectedPlace.buildingNumber} {this.state.selectedPlace.buildingName && this.state.selectedPlace.buildingName}  
-                                {this.state.selectedPlace.troughfare}<br />
+                                {this.state.selectedPlace.thoroughfare}<br />
                                 {this.state.selectedPlace.postTown}<br />
                                 {this.state.selectedPlace.postCode}<br />
                                 {this.state.selectedPlace.county}
