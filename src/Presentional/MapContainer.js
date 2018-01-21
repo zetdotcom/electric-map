@@ -23,24 +23,32 @@ export class MapContainer extends React.Component {
             .onMapClicked
             .bind(this);
 
+        this.typeSelection = this
+            .typeSelection
+            .bind(this);
+
     }
 
     onMarkerClick(markerProps, marker, e) {
-        this.setState({
-            selectedPlace: markerProps,
-            activeMarker: marker,
-            showingInfoWindow: true});
+        this.setState({selectedPlace: markerProps, activeMarker: marker, showingInfoWindow: true});
     }
 
     onMapClicked(props) {
         if (this.state.showingInfoWindow) {
-            this.setState({
-                showingInfoWindow: false,
-                activeMarker: null})
+            this.setState({showingInfoWindow: false, activeMarker: null})
         }
     }
 
+    typeSelection(event) {
+        let name = event.target.name;
+        let value = event.target.value;
 
+        this.setState({
+            [name]: value
+        }, () => {
+            console.log(this.state)
+        })
+    }
 
     render() {
         if (!this.props.loaded) {
@@ -53,14 +61,12 @@ export class MapContainer extends React.Component {
             height: '100vh'
         }
 
-
         const info = (place) => {
 
-            if ( this.state.selectedPlace.place !== "" || this.state.selectedPlace.place !== null) {
+            if (this.state.selectedPlace.place !== "" || this.state.selectedPlace.place !== null) {
                 return this.state.selectedPlace.place
             }
         }
-        
 
         const markers = pointsService
             .getAccessible()
@@ -81,14 +87,23 @@ export class MapContainer extends React.Component {
                 lat={location.ChargeDeviceLocation.Latitude}
                 lng={location.ChargeDeviceLocation.Longitude}
                 address={location.ChargeDeviceLocation.Address}
-                />));
+                access24={location.Accessible24Hours}
+                payment={location.PaymentRequiredFlag}
+                payDetails={location.PaymentDetails}
+                website={location.DeviceOwner.Website}
+                connector={location.Connector.map((type) => {
+                    return <p>{type.ConnectorType}</p>
 
+                console.log(location.Connector.map((type) => {
+                    console.log(type.ConnectorType)
+                }))
+                })}/>));
 
 
         return (
             <div style={style}>
-                
-                <Map onClick={this.onMapClicked} google={this.props.google} >
+
+                <Map onClick={this.onMapClicked} google={this.props.google} typeSelection={this.typeSelection}>
                     {markers}
 
                     <InfoWindow
@@ -97,16 +112,33 @@ export class MapContainer extends React.Component {
 
                         <div className="iw">
                             <div className="iw-device-name">{this.state.selectedPlace.name}</div>
-                            <div className="iw-adress"><span>
-                                {this.state.selectedPlace.buildingNumber && this.state.selectedPlace.buildingNumber} {this.state.selectedPlace.buildingName && this.state.selectedPlace.buildingName}  
-                                {this.state.selectedPlace.thoroughfare}<br />
-                                {this.state.selectedPlace.postTown}<br />
-                                {this.state.selectedPlace.postCode}<br />
-                                {this.state.selectedPlace.county}
+                            <div className="iw-adress">
+                                <span>
+                                    {this.state.selectedPlace.buildingNumber && this.state.selectedPlace.buildingNumber}
+                                    {this.state.selectedPlace.buildingName && this.state.selectedPlace.buildingName}
+                                    {this.state.selectedPlace.thoroughfare}<br/> {this.state.selectedPlace.postTown}<br/> {this.state.selectedPlace.postCode}<br/> {this.state.selectedPlace.county}
                                 </span>
                             </div>
                             <div className="iw-directions">
-                                <a href={'https://www.google.co.uk/maps/dir/Current+Location/' + this.state.selectedPlace.lat + ','+ this.state.selectedPlace.lng} target="blank">directions</a>
+                                <a
+                                    href={'https://www.google.co.uk/maps/dir/Current+Location/' + this.state.selectedPlace.lat + ',' + this.state.selectedPlace.lng}
+                                    target="blank">directions</a>
+                            </div>
+                            <div className="other-details">
+                                {(this.state.selectedPlace.access24)? <p>24hrs access</p> : ""}
+
+                               { /* assummed that devices with PaymentRequiredFlag are free to use */ }
+                                {(this.state.selectedPlace.payment) ?
+                                     (this.state.selectedPlace.payDetails !== "" && this.state.selectedPlace.payDetails !== null) ?
+                                      `cost: ${this.state.selectedPlace.payDetails}`:  
+                                      "FREE TO USE": "FREE TO USE"
+                                    }<br />
+                                Connectors: 
+                                {this.state.selectedPlace.connector}
+
+                                
+                                
+                                
                             </div>
                         </div>
                     </InfoWindow>

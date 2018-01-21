@@ -33,14 +33,3 @@ export const filterByConnectorType = (connectorType) => {
     });
 }
 
-
-// export const asd = () => {
-//     return data.map((item) => {
-//         let adr = item.ChargeDeviceLocation.Address;
-        
-//             console.log();
-        
-        
-//     })
-// // })
-// }

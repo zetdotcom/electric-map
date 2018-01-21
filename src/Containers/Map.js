@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
+import {TypeSelect} from './TypeSelect';
 
 import {MdSearch, MdSettingsInputHdmi, MdSettingsInputComponent, MdFlashOn} from 'react-icons/lib/md';
 
@@ -61,14 +62,15 @@ export class Map extends React.Component {
                             lng: coords.longitude,
                             
                         },
-                        zoom: 2
+                        zoom: 4
                     })
                 })
             }
         }
-
         this.loadMap();
     }
+
+    
 
     loadMap() {
         if (this.props && this.props.google) {
@@ -161,21 +163,20 @@ export class Map extends React.Component {
                     <input id="pac-input"  className="controls"  type="text" placeholder="Enter Location" autoFocus />
                     <MdSearch className="search-icon" />
                 </div>
-                <div className="filter-type"> 
-
-                        <label htmlFor="type">
-                            <span><MdFlashOn className="search-icons" />All Types</span>
-                            <input name="type" value="all" type="radio" onChange={this.props.typeSelecttion} />
-                        </label>
-                        <label htmlFor="type">
-                            <span><MdSettingsInputHdmi className="search-icons" />Type 2 Mennekes</span>
-                            <input name="type" value="type2" type="radio" onChange={this.props.typeSelecttion} />
-                        </label>
-                        <label htmlFor="type">
-                            <span><MdSettingsInputComponent className="search-icons" />3-Pin Type G</span>
-                            <input name="type" value="3pin" type="radio" onChange={this.props.typeSelecttion} />
-                        </label>
-         
+                <div className="filter-type">
+                    <select className="types" onChange={this.props.typeSelection}>
+                        <option name="type" value="all"> Select Connector Type </option>
+                        <option name="type" value="3-pin Type G (BS1363)"> 3-pin Type G (BS1363) </option>
+                        <option name="type" value="JEVS G105 (CHAdeMO) DC"> JEVS G105 (CHAdeMO) DC </option>
+                        <option name="type" value="Type 1 SAEJ1772 (IEC 62196)"> Type 1 SAEJ1772 (IEC 62196) </option>
+                        <option name="type" value="Type 2 Combo (IEC62196) DC"> Type 2 Combo (IEC62196) DC </option>
+                        <option name="type" value="Type 2 Mennekes (IEC62196)"> Type 2 Mennekes (IEC62196) </option>
+                        <option name="type" value="Type 2 Tesla (IEC62196) DC"> Type 2 Tesla (IEC62196) DC </option>
+                        <option name="type" value="Type 3 Scame (IEC62196)"> Type 3 Scame (IEC62196) </option>
+                    </select>
+                </div>
+                <div className="geo-btn">
+                    <button >asd</button>
                 </div>
             </div>
              
