@@ -1,12 +1,12 @@
 #pac-box {
   width: 70%;
+  min-width: 500px;
   margin: 10px 10px 0 0;
   display: flex;
-  font-family: Roboto, Arial, sans-serif; }
-  #pac-box .autocomplete {
-    order: 2;
+  font-family: Roboto, Arial, sans-serif;
+  flex-flow: row wrap; }
+  #pac-box .filter-box {
     height: 30px;
-    width: 70%;
     background-color: white;
     padding: 8px;
     border-radius: 2px;
@@ -17,6 +17,10 @@
     overflow: hidden;
     box-sizing: border-box;
     position: relative; }
+  #pac-box .autocomplete {
+    order: 1;
+    flex: 7;
+    margin-right: 5px; }
     #pac-box .autocomplete .controls {
       width: 90%;
       height: 100%;
@@ -32,39 +36,43 @@
       padding-top: 2px;
       z-index: 20; }
   #pac-box .filter-type {
-    order: 1;
-    width: 30%;
-    height: 30px;
-    background-color: white;
-    padding: 8px;
-    border-radius: 2px;
-    border: none;
-    border-bottom: 1px solid grey;
-    background-clip: padding-box;
-    box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;
-    overflow: hidden;
-    box-sizing: border-box;
-    position: relative;
+    order: 2;
+    min-width: 220px;
+    flex: 3;
     margin-right: 5px; }
     #pac-box .filter-type .types {
       border: none;
       outline: none;
       width: 100%;
       color: #565656; }
-  #pac-box .geo-btn button {
-    height: 30px;
-    background-color: white;
-    padding: 8px;
-    border-radius: 2px;
-    border: none;
-    border-bottom: 1px solid grey;
-    background-clip: padding-box;
-    box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;
-    overflow: hidden;
-    box-sizing: border-box;
-    position: relative;
-    margin-right: 5px;
-    outline: none; }
-    #pac-box .geo-btn button:active {
-      background: #eeeeee;
-      transform: scale(0.97); }
+  #pac-box .geo-btn {
+    order: 3;
+    flex-shrink: 1; }
+    #pac-box .geo-btn button {
+      height: 30px;
+      background-color: white;
+      margin-right: 5px;
+      border-radius: 2px;
+      border: none;
+      border-bottom: 1px solid grey;
+      background-clip: padding-box;
+      box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;
+      overflow: hidden;
+      box-sizing: border-box;
+      position: relative;
+      outline: none;
+      color: #565656; }
+      #pac-box .geo-btn button:active {
+        background: #eeeeee;
+        transform: scale(0.97); }
+
+@media screen and (max-width: 620px) {
+  #pac-box {
+    flex-flow: column;
+    align-items: flex-end; }
+    #pac-box .autocomplete {
+      width: 70%; } }
+
+@media screen and (max-width: 480px) {
+  #pac-box .autocomplete {
+    width: 225px; } }

@@ -1,9 +1,9 @@
-import React, {Component} from 'react'
+import React from 'react'
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
-import {TypeSelect} from './TypeSelect';
 
-import {MdSearch, MdSettingsInputHdmi, MdSettingsInputComponent, MdFlashOn} from 'react-icons/lib/md';
+
+import {MdSearch, MdMyLocation} from 'react-icons/lib/md';
 
 import './Map.css';
 
@@ -17,15 +17,32 @@ export class Map extends React.Component {
                 lat: lat,
                 lng: lng
             },
-            zoom: 12,
-            maptype: 'roadmap',
-            place_formatted: '',
-            place_id: '',
-            place_location: ''
+            zoom:6
         }
 
+        this.loadMap = this.loadMap.bind(this);
+        this.recenterMap = this.recenterMap.bind(this);
+        this.myLocation = this.myLocation.bind(this);
+    }
 
-        this.recenterMap = this.recenterMap.bind(this)
+    myLocation() {
+        
+            if (navigator && navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition((pos) => {
+                    const coords = pos.coords;
+                    
+                    this.setState({
+                        currentLocation: {
+                            lat: coords.latitude,
+                            lng: coords.longitude,
+                            
+                        },
+                        zoom: 14
+                    })
+                })
+            }
+        
+        console.log(this.state)
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -49,24 +66,10 @@ export class Map extends React.Component {
             
         }
       }
-
+      
     componentDidMount() {
-        if (!this.props.centerAroundCurrentLocation) {
-            if (navigator && navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition((pos) => {
-                    const coords = pos.coords;
-                    
-                    this.setState({
-                        currentLocation: {
-                            lat: coords.latitude,
-                            lng: coords.longitude,
-                            
-                        },
-                        zoom: 4
-                    })
-                })
-            }
-        }
+        
+
         this.loadMap();
     }
 
@@ -81,7 +84,7 @@ export class Map extends React.Component {
             const mapRef = this.refs.map;
             const node = ReactDOM.findDOMNode(mapRef);
 
-            let {initialCenter, zoom} = this.props;
+            
             const {lat, lng} = this.state.currentLocation;
             const center = new maps.LatLng(lat, lng);
             const mapConfig = {
@@ -94,13 +97,6 @@ export class Map extends React.Component {
                 this.props.onClick(this.map);
             });
 
-            //set default bounds for biased autocomplete searched
-            const defaultBounds = new google.maps.LatLngBounds(
-                new google.maps.LatLng(61.433515, 1.669922),
-                new google.maps.LatLng(49.432413, -8.876953));
-            const options = {
-                bounds: defaultBounds
-            };
 
             // initialize the autocomplete functionality using the #pac-input input box
             let inputNode = document.getElementById('pac-input');
@@ -131,6 +127,7 @@ export class Map extends React.Component {
 
               });
         }
+        console.log(this.state)
     }
 
     renderChildren() {
@@ -159,11 +156,11 @@ export class Map extends React.Component {
         return(
           <div>
             <div id="pac-box">
-                <div className="autocomplete">
+                <div className="autocomplete filter-box">
                     <input id="pac-input"  className="controls"  type="text" placeholder="Enter Location" autoFocus />
                     <MdSearch className="search-icon" />
                 </div>
-                <div className="filter-type">
+                <div className="filter-type filter-box">
                     <select className="types" onChange={this.props.typeSelection}>
                         <option name="type" value="all"> Select Connector Type </option>
                         <option name="type" value="3-pin Type G (BS1363)"> 3-pin Type G (BS1363) </option>
@@ -176,7 +173,7 @@ export class Map extends React.Component {
                     </select>
                 </div>
                 <div className="geo-btn">
-                    <button >asd</button>
+                    <button onClick={this.myLocation}><MdMyLocation /></button>
                 </div>
             </div>
              
@@ -200,12 +197,12 @@ Map.propTypes = {
 }
 
 Map.defaultProps ={
-    zoom: 6,
+    
     //center of UK by default
     initialCenter: {
-        lat: 52.621388,
-        lng: -2.592773
+        lat: 54.71907295005953,
+        lng: -4.411053000000038
     },
-    centerAroundCurrentLocation: false,
+    centerAroundCurrentLocation: true,
     onClick: function() {} // default prop
 }

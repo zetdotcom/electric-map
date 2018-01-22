@@ -23,6 +23,6 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "deploy": "firebase deploy",
-    "buildanddeploy" : "npm run build && npm deploy"
+    "buildanddeploy" : "npm run build && npm run deploy"
   }
 }

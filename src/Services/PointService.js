@@ -26,7 +26,8 @@ export const getAccessible = () => {
 export const filterByConnectorType = (connectorType) => {
     return getAccessible().filter((location, index) => {
         const connectors = location.Connector.filter((connector) => {
-            return connector.ConnectorType === connectorType;
+           return  (connectorType === "all") ? getAccessible() : connector.ConnectorType === connectorType;
+            
         });
 
         return connectors.length > 0 ? true : false;

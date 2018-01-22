@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {GoogleApiWrapper, Marker, InfoWindow} from 'google-maps-react';
 import {Map} from '../Containers/Map';
 
@@ -12,7 +12,8 @@ export class MapContainer extends React.Component {
         this.state = {
             showingInfoWindow: false,
             activeMarker: {},
-            selectedPlace: {}
+            selectedPlace: {},
+            type: "all"
         }
 
         // binding this to event-handler functions
@@ -37,14 +38,14 @@ export class MapContainer extends React.Component {
         if (this.state.showingInfoWindow) {
             this.setState({showingInfoWindow: false, activeMarker: null})
         }
+        console.log(this.state)
     }
 
     typeSelection(event) {
-        let name = event.target.name;
         let value = event.target.value;
 
         this.setState({
-            [name]: value
+            type: value
         }, () => {
             console.log(this.state)
         })
@@ -61,15 +62,9 @@ export class MapContainer extends React.Component {
             height: '100vh'
         }
 
-        const info = (place) => {
-
-            if (this.state.selectedPlace.place !== "" || this.state.selectedPlace.place !== null) {
-                return this.state.selectedPlace.place
-            }
-        }
-
+        
         const markers = pointsService
-            .getAccessible()
+            .filterByConnectorType(this.state.type)
             .map((location, index) => (<Marker
                 onClick={this.onMarkerClick}
                 key={location.ChargeDeviceId}
@@ -91,8 +86,8 @@ export class MapContainer extends React.Component {
                 payment={location.PaymentRequiredFlag}
                 payDetails={location.PaymentDetails}
                 website={location.DeviceOwner.Website}
-                connector={location.Connector.map((type) => {
-                    return <p>{type.ConnectorType}</p>
+                connector={location.Connector.map((type, index) => {
+                    return <p key={index}>{type.ConnectorType} </p>
 
                 console.log(location.Connector.map((type) => {
                     console.log(type.ConnectorType)
@@ -103,7 +98,7 @@ export class MapContainer extends React.Component {
         return (
             <div style={style}>
 
-                <Map onClick={this.onMapClicked} google={this.props.google} typeSelection={this.typeSelection}>
+                <Map zoom={this.state.zoom} onClick={this.onMapClicked} google={this.props.google} typeSelection={this.typeSelection}>
                     {markers}
 
                     <InfoWindow

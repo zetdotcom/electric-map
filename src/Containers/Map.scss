@@ -1,12 +1,12 @@
 #pac-box {
     width: 70%;
+    min-width: 500px; 
     margin: 10px 10px 0 0;
     display: flex;
     font-family: Roboto, Arial, sans-serif;
-    .autocomplete {
-        order: 2;
+    flex-flow: row wrap;
+    .filter-box {
         height: 30px;
-        width: 70%;
         background-color: rgb(255, 255, 255);
         padding: 8px;
         border-radius: 2px;
@@ -17,6 +17,13 @@
         overflow: hidden;
         box-sizing: border-box;
         position: relative;
+    }
+    .autocomplete {
+        order: 1;
+        // width: 70%;
+        flex: 7;
+        margin-right: 5px;
+        
         .controls {
             width: 90%;
             height: 100%;
@@ -36,20 +43,10 @@
     }
     
     .filter-type {
-        order: 1;
-        
-        width: 30%;
-        height: 30px;
-        background-color: rgb(255, 255, 255);
-        padding: 8px;
-        border-radius: 2px;
-        border: none;
-        border-bottom: 1px solid grey;
-        background-clip: padding-box;
-        box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;
-        overflow: hidden;
-        box-sizing: border-box;
-        position: relative;
+        order: 2;
+        min-width: 220px;
+        // width: 30%;
+        flex: 3;
         margin-right: 5px;
 
         .types {
@@ -59,23 +56,51 @@
             color: rgb(86, 86, 86);
         }
     }
-    .geo-btn button {
-        height: 30px;
-        background-color: rgb(255, 255, 255);
-        padding: 8px;
-        border-radius: 2px;
-        border: none;
-        border-bottom: 1px solid grey;
-        background-clip: padding-box;
-        box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;
-        overflow: hidden;
-        box-sizing: border-box;
-        position: relative;
-        margin-right: 5px;
-        outline: none;
-        &:active {
-            background: rgb(238, 238, 238);
-            transform: scale(0.97);
+    .geo-btn {
+    
+        order: 3;
+        flex-shrink: 1;
+        button {
+            
+            height: 30px;
+            background-color: rgb(255, 255, 255);
+            // padding: 8px;
+            margin-right: 5px;
+            border-radius: 2px;
+            border: none;
+            border-bottom: 1px solid grey;
+            background-clip: padding-box;
+            box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;
+            overflow: hidden;
+            box-sizing: border-box;
+            position: relative;
+            outline: none;
+            
+            color: rgb(86, 86, 86);
+            &:active {
+                background: rgb(238, 238, 238);
+                transform: scale(0.97);
+            }
         }
     }
 }
+
+@media screen and (max-width: 620px) {
+#pac-box {
+    flex-flow: column;
+    // width: 30%;
+    align-items: flex-end;
+    .autocomplete {
+        width: 70%;
+    }
+}
+}
+
+@media screen and (max-width: 480px) {
+    #pac-box {
+        
+        .autocomplete {
+            width: 225px;
+        }
+    }
+    }
