@@ -4,7 +4,8 @@ import {
   Marker,
   InfoWindow
 } from "google-maps-react";
-import { Map } from "../Containers/Map";
+import { MdDirections } from "react-icons/lib/md";
+import { Map } from "./Map";
 
 import * as pointsService from "../Services/PointService";
 
@@ -131,7 +132,8 @@ export class MapContainer extends React.Component {
                     }
                     target="blank"
                   >
-                    directions
+                    <MdDirections />
+                    Get Directions 
                   </a>
                 </div>
                 <div className="other-details">
