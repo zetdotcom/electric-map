@@ -5,7 +5,7 @@ import data from './../Data/data.json';
 
 const ConnectorTypes = (props) => {
 
-  function unique(value, index, self) { 
+function unique(value, index, self) { 
     return self.indexOf(value) === index;
 }
   var ct = data.map((item) => {
